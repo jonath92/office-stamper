@@ -1,7 +1,5 @@
 package pro.verron.officestamper.asciidoc;
 
-import org.jspecify.annotations.NonNull;
-
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -24,7 +22,7 @@ import static pro.verron.officestamper.asciidoc.AsciiDocModel.*;
 public final class AsciiDocToText
         implements Function<AsciiDocModel, String> {
 
-    private static String renderInlines(List<@NonNull Inline> inlines) {
+    private static String renderInlines(List<Inline> inlines) {
         var sb = new StringBuilder();
         for (Inline inline : inlines) {
             sb.append(switch (inline) {
