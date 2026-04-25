@@ -55,6 +55,11 @@ public final class AsciiDocModel {
     /// @param inlines inline fragments
     public record Heading(List<String> header, int level, List<Inline> inlines)
             implements Block {
+        /// Constructs a Heading object with the specified heading level and inline fragments.
+        ///
+        /// @param level the heading level, must be between 1 and 6 (inclusive)
+        /// @param inlines the list of inline fragments representing the content of the heading
+        /// @throws IllegalArgumentException if the heading level is outside the range of 1 to 6
         public Heading(int level, List<Inline> inlines) {
             this(emptyList(), level, inlines);
         }
@@ -83,6 +88,11 @@ public final class AsciiDocModel {
     /// @param inlines inline fragments
     public record Paragraph(List<String> header, List<Inline> inlines)
             implements Block {
+        /// Constructs a Paragraph object with the specified list of inline elements.
+        /// This constructor initializes the paragraph without any header and sets the
+        /// inline fragments to the provided list.
+        ///
+        /// @param inlines the list of inline elements that make up the paragraph
         public Paragraph(List<Inline> inlines) {
             this(emptyList(), inlines);
         }
@@ -127,8 +137,21 @@ public final class AsciiDocModel {
         }
     }
 
+    /// Represents a superscript inline fragment in an AsciiDoc document.
+    ///
+    /// This class encapsulates a list of child [Inline] elements and provides a method to return
+    /// the concatenated text content of all child elements. It is an immutable record type, providing
+    /// safety and ensuring that the children list cannot be externally modified after the instance
+    /// is created.
     public record Sup(List<Inline> children)
             implements Inline {
+        /// Constructs a `Sup` instance, representing a superscript inline fragment in an AsciiDoc document.
+        ///
+        /// The Sup instance encapsulates a list of [Inline] child elements. The list is copied to ensure immutability,
+        /// providing safety and preventing external modification after creation.
+        ///
+        /// @param children the list of [Inline] elements to be included as children of the superscript fragment
+        ///                 (must not be null; each element should represent a valid inline fragment)
         public Sup(List<Inline> children) {
             this.children = List.copyOf(children);
         }
@@ -348,6 +371,11 @@ public final class AsciiDocModel {
     public record InlineImage(String path, Map<String, String> map)
             implements Inline {
 
+        /// Constructs an instance of the InlineImage class with the specified image path and alternative text mappings.
+        ///
+        /// @param path the path to the image
+        /// @param map a mapping of alternative text attributes associated with the image;
+        ///            keys and values represent descriptive labels for different use cases or locales
         public InlineImage(String path, Map<String, String> map) {
             this.path = path;
             this.map = Collections.unmodifiableMap(new TreeMap<>(map));
@@ -360,6 +388,18 @@ public final class AsciiDocModel {
     }
 
 
+    /// Represents an OpenBlock element in an AsciiDoc model.
+    ///
+    /// An OpenBlock is a container for grouping other blocks and includes both header and content sections.
+    /// The header contains metadata or data relevant to the block, while the content is the list of
+    /// individual blocks encapsulated within this OpenBlock.
+    ///
+    /// This implementation computes the size of the OpenBlock as the sum of the sizes of its content blocks.
+    ///
+    /// @param header  a list of strings representing metadata or informational content about the OpenBlock.
+    /// @param content a list of [Block] elements comprising the actual blocks grouped by this OpenBlock.
+    ///
+    /// @see Block
     public record OpenBlock(List<String> header, List<Block> content)
             implements Block {
         @Override
@@ -370,6 +410,9 @@ public final class AsciiDocModel {
         }
     }
 
+    /// Represents a line break in a document structure.
+    /// This is a marker record that implements the [Block] interface.
+    /// It has a fixed size of zero, indicating no content spans across the line break.
     public record Break()
             implements Block {
         @Override
@@ -378,6 +421,17 @@ public final class AsciiDocModel {
         }
     }
 
+    /// Represents a comment line in the AsciiDoc document model.
+    ///
+    /// A comment line is considered a block-level element but does not contribute
+    /// any visible content to the output document. It is typically used to store
+    /// annotations or additional information within the block structure.
+    ///
+    /// This class implements the `Block` interface, which mandates
+    /// implementing the `size` method. The size of a comment line
+    /// is always zero, as it does not represent any visual or measurable content.
+    ///
+    /// @param comment the text of the comment line
     public record CommentLine(String comment)
             implements Block {
         @Override
@@ -386,6 +440,19 @@ public final class AsciiDocModel {
         }
     }
 
+    /// Represents an inline fragment within a paragraph or heading that is styled with a specific role.
+    ///
+    /// A Styled instance encapsulates:
+    /// - A role, which defines the style or semantic meaning associated with the content.
+    /// - A list of children, which are other inline elements that are part of this styled fragment.
+    ///
+    /// This record implements the Inline interface, providing functionality to retrieve
+    /// styled text by concatenating the text from all its child inline elements.
+    ///
+    /// Responsibilities:
+    /// - Holds a role and its associated inline content.
+    /// - Provides a textual representation of the styled content by aggregating the text
+    ///   from all children inline elements.
     public record Styled(String role, List<Inline> children)
             implements Inline {
         @Override
@@ -396,6 +463,15 @@ public final class AsciiDocModel {
         }
     }
 
+    /// Represents a macro block in an AsciiDoc document, which is a specialized block
+    /// containing a unique identifier, a name, and a list of associated data.
+    ///
+    /// The [MacroBlock] is immutable and implements the [Block] interface.
+    /// It provides a concrete implementation for determining the size of the block.
+    ///
+    /// @param name the name of the macro block
+    /// @param id the unique identifier for the macro block
+    /// @param list an ordered list of strings associated with the macro block
     public record MacroBlock(String name, String id, List<String> list)
             implements Block {
         @Override
@@ -404,6 +480,13 @@ public final class AsciiDocModel {
         }
     }
 
+    /// Represents an inline macro in an AsciiDoc document.
+    /// An inline macro is a specialized inline element with a name, an identifier,
+    /// and a list of string values that represent its content.
+    ///
+    /// @param name the name of the macro, describing its purpose or type
+    /// @param id   an identifier associated with the macro, often used for reference
+    /// @param list a list of strings representing the components of the macro's content
     public record InlineMacro(String name, String id, List<String> list)
             implements Inline {
 

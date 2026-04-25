@@ -9,6 +9,18 @@ import java.util.stream.Collectors;
 
 import static pro.verron.officestamper.asciidoc.AsciiDocModel.*;
 
+/// The AsciiDocToText class is a utility for converting an [AsciiDocModel]
+/// to a plain text representation. This class implements the [Function]
+/// interface, where it transforms the given AsciiDoc model into a formatted string
+/// based on specific rules for rendering various AsciiDoc elements.
+///
+/// The conversion logic handles multiple AsciiDoc constructs including, but not
+/// limited to, headings, paragraphs, lists (ordered and unordered), tables,
+/// blockquotes, images, inline elements with styling, code blocks, and macros.
+/// Each AsciiDoc element is translated into its corresponding plain text
+/// representation using custom rendering methods.
+///
+/// This class is immutable and operates as a stateless utility to ensure thread safety.
 public final class AsciiDocToText
         implements Function<AsciiDocModel, String> {
 
@@ -136,6 +148,11 @@ public final class AsciiDocToText
         return "[%s]\n".formatted(String.join(", ", header));
     }
 
+    /// Applies the conversion logic on the given AsciiDoc model and renders its blocks
+    /// into a concatenated string representation.
+    ///
+    /// @param model the AsciiDoc model containing blocks to be processed and rendered
+    /// @return a string representation of the rendered blocks from the provided model
     public String apply(AsciiDocModel model) {
         return model.getBlocks()
                     .stream()

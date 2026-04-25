@@ -7,6 +7,29 @@ import java.util.stream.Collectors;
 
 import static pro.verron.officestamper.asciidoc.AsciiDocModel.*;
 
+/// The AsciiDocToHtml class is responsible for rendering an AsciiDoc representation
+/// into its corresponding HTML output. It implements the [Function] interface,
+/// converting an [AsciiDocModel] to a String containing the HTML representation.
+///
+/// This class provides static utility methods for rendering various AsciiDoc block
+/// types and inline elements into their HTML counterparts. The following block types
+/// are supported for conversion:
+///
+/// - Headings
+/// - Paragraphs
+/// - Unordered and Ordered Lists
+/// - Tables
+/// - Blockquotes
+/// - Code Blocks
+/// - Image Blocks
+///
+/// Additionally, inline elements such as bold, italic, links, images, and text are
+/// rendered with appropriate HTML tags.
+///
+/// The class adheres to the functional programming paradigm by implementing the
+/// `apply` method to facilitate the mapping of AsciiDoc models to HTML.
+///
+/// This class is immutable and cannot be instantiated.
 public final class AsciiDocToHtml
         implements Function<AsciiDocModel, String> {
 
@@ -81,6 +104,10 @@ public final class AsciiDocToHtml
         return sb.toString();
     }
 
+    /// Converts the given AsciiDoc model into an HTML document string.
+    ///
+    /// @param model the AsciiDocModel containing the blocks to be processed.
+    /// @return the resulting HTML document as a string.
     public String apply(AsciiDocModel model) {
         StringBuilder html = new StringBuilder();
         html.append("<!DOCTYPE html>\n<html>\n<head>\n<meta charset=\"UTF-8\">\n</head>\n<body>\n");
