@@ -617,7 +617,7 @@ public final class DocxToAsciiDoc
         }
 
         public void open(BigInteger id, int blockStart, int lineStart) {
-            var commentBuilder = new CommentBuilder().setId(id)
+            var commentBuilder = new CommentBuilder(id)
                                                      .setBlockStart(blockStart)
                                                      .setLineStart(lineStart);
             comments.addLast(commentBuilder);

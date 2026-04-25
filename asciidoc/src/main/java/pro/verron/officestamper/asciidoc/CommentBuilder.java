@@ -16,8 +16,10 @@ public class CommentBuilder {
     private int blockEnd;
     private int lineEnd;
 
-    public DocxToAsciiDoc.CommentRecorder.Comment createComment() {
-        return new DocxToAsciiDoc.CommentRecorder.Comment(id, blockStart, lineStart, blockEnd, lineEnd);
+    public CommentBuilder(BigInteger id) {
+        this.id = id;
+    }
+
     /// Creates and returns a new instance of [Comment].
     /// The instance is constructed with the current state of the builder,
     /// using the configured values for ID, block start, line start, block end, and line end.

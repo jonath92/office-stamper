@@ -43,10 +43,7 @@ public final class AsciiDocParser
     /// @return an [AsciiDocModel] object representing the parsed blocks and their
     ///         structure in the input string. Returns an empty model if the input is blank.
     public AsciiDocModel apply(String asciidoc) {
-        var blocks = new ArrayList<Block>();
-        if (asciidoc == null || asciidoc.isBlank()) {
-            return AsciiDocModel.of(blocks);
-        }
+        if (asciidoc.isBlank()) return AsciiDocModel.of(new ArrayList<>());
 
         String[] lines = asciidoc.split("\r?\n");
         StringBuilder currentParagraph = new StringBuilder();
@@ -57,6 +54,7 @@ public final class AsciiDocParser
         List<Row> currentTableRows = new ArrayList<>();
         StringBuilder currentBlockContent = new StringBuilder();
 
+        var blocks = new ArrayList<Block>();
         for (String line : lines) {
             String trimmed = line.trim();
 
@@ -265,9 +263,7 @@ public final class AsciiDocParser
         var stack = new ArrayList<Frame>();
         stack.add(root);
 
-        if (text == null || text.isEmpty()) {
-            return root.children;
-        }
+        if (text.isEmpty()) return root.children;
 
         for (int i = 0; i < text.length(); i++) {
             char c = text.charAt(i);
