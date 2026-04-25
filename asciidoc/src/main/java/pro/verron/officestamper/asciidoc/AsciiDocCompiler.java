@@ -6,10 +6,10 @@ import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
 /// Facade utilities to parse AsciiDoc and compile it to different targets.
 public final class AsciiDocCompiler {
 
-    public static final AsciiDocToHtml MODEL_TO_HTML = new AsciiDocToHtml();
-    public static final AsciiDocToFx MODEL_TO_SCENE = new AsciiDocToFx();
-    public static final AsciiDocParser ASCIIDOC_TO_MODEL = new AsciiDocParser();
-    public static final AsciiDocToDocx MODEL_TO_DOCX = new AsciiDocToDocx();
+    private static final AsciiDocToHtml MODEL_TO_HTML = new AsciiDocToHtml();
+    private static final AsciiDocToFx MODEL_TO_SCENE = new AsciiDocToFx();
+    private static final AsciiDocParser ASCIIDOC_TO_MODEL = new AsciiDocParser();
+    private static final AsciiDocToDocx MODEL_TO_DOCX = new AsciiDocToDocx();
     private static final AsciiDocToText MODEL_TO_ASCIIDOC = new AsciiDocToText();
 
     private AsciiDocCompiler() {
